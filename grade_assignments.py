@@ -41,7 +41,7 @@ def generate_csv(inter_path, output_path):
     grades = []
     files = sorted(os.listdir(inter_path))
     for _file in files:
-        if _file.startswith("test_"): # to handle the case of file .pytest_cache
+        if _file.startswith("test_"):  # to handle the case of file .pytest_cache
             try:
                 filepath = os.path.join(inter_path, _file)
                 print(filepath)
@@ -63,18 +63,22 @@ def generate_csv(inter_path, output_path):
                 remarks = ""
                 total_tests = int(content[3].replace("collected ", "").replace(" items", ""))
                 passed_tests = 0
-                remarks += "Total tests : {} | ".format(total_tests)
 
                 test_result_finds = re.findall(r"(\d)*\s+(failed|passed)", content[-1])
                 for _result in test_result_finds:
-                    remarks += "{} tests: {} | ".format(_result[1].capitalize(), _result[0])
                     if _result[1] == "passed":
                         passed_tests = int(_result[0])
 
+                remarks += "Out of {} tests, your code passed {} and failed {}.".format(total_tests, passed_tests,
+                                                                                        total_tests - passed_tests)
+
                 # Adds the brief summary of test cases if any one of them has failed
                 if " short test summary info " in "".join(content):
-                    remarks += " | ".join("".join(content).split(" short test summary info ")[1].split("\n")[1:-2])
-                remarks = remarks.strip(" | ")
+                    remarks += " Specific areas that were not completely correct were the functions named, "
+                    failed_messages_list = "".join(content).split(" short test summary info ")[1].split("\n")[1:-2]
+                    for message in failed_messages_list:
+                        remarks += "{}, ".format(message.split("Tests::")[1].split(" - ")[0])
+                remarks = remarks.strip(", ")
 
                 # the marks are given with an assumption that each test has an equal weightage to the final marks
                 student_grade["total_points"] = passed_tests * (100 / total_tests)
