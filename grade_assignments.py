@@ -61,10 +61,10 @@ def generate_csv(inter_path, output_path):
                     continue
 
                 remarks = ""
-                total_tests = int(re.findall(r"collected\s(\d)*\sitems", "".join(content))[0])
+                total_tests = int(re.findall(r"collected\s(\d+)\sitems", "".join(content))[0])
                 passed_tests = 0
 
-                test_result_finds = re.findall(r"(\d)*\s+(failed|passed)", content[-1])
+                test_result_finds = re.findall(r"(\d*)\s+(failed|passed)", content[-1])
                 for _result in test_result_finds:
                     if _result[1] == "passed":
                         passed_tests = int(_result[0])
