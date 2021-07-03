@@ -22,8 +22,8 @@ The script, [grade_assignments.py](./grade_assignments.py), autogrades student w
 
 ## Check time taken to complete assignment or exam
 
-The script, [check_git_commits_time.py](./check_git_commits_time.py), determines whether students pushed their code within a given number of hours after their git repositories were initialized. This is especially useful for exams where students are timed from the moment they begin the exam.
+The script, [check_git_commits_time.py](./check_git_commits_time.py), identifies students who took longer than allowed to complete an exam or assignment. This is especially useful for exams where students can start at a time of their choosing, but are timed from the moment they begin.
 
 - Make this script executable and run, `./check_git_commits_time.py --base_path path_to_main_assignment_directory` or `python3 check_git_commits_time.py --base_path path_to_main_assignment_directory`, where `path_to_main_assignment_directory` is replaced by your main assignment directory.
-- Add an optional `--time_allowed` flag with the number of minutes allowed for the exam. For example, `./check_git_commits_time.py --base_path path_to_main_assignment_directory --time_allowed 120`
+- Add an optional `--time_allowed` flag with the number of minutes allowed for the exam. For example, `./check_git_commits_time.py --base_path path_to_main_assignment_directory --time_allowed 120`. The allowed time defaults to `3.5` hours.
 - Names and time taken by students over the allowed limit will be saved into a CSV file named, `git_log_output_files/students.csv` within the assignment main directory.
