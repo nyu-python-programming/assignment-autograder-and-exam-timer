@@ -3,9 +3,7 @@
 import argparse
 import datetime
 import os
-import re
 import shutil
-import time
 import pandas as pd
 
 ALLOWED_TIME_IN_SECONDS = 12600  # 3.5 hours * 3600 seconds / hour
@@ -61,7 +59,7 @@ def generate_csv(inter_path, output_path):
                     "time_taken": 0,
                     "remarks": "",
                 }
-                with open(filepath, "r") as fp:
+                with open(filepath, mode="r", encoding="utf-8") as fp:
                     content = fp.read().strip().split("\n")
 
                 last_commit_timestamp = int(content[0])
@@ -80,17 +78,12 @@ def generate_csv(inter_path, output_path):
                 if time_taken.total_seconds() > ALLOWED_TIME_IN_SECONDS:
                     student_record["time_taken"] = time_taken_str
                     student_record["remarks"] = (
-                        "You took {} time to complete the assignment".format(
-                            time_taken_str
-                        )
+                        f"You took {time_taken_str} time to complete the assignment"
                     )
                     names.append(student_record)
             except Exception as ex:
-                print(
-                    "=================== Exception for {} ===================".format(
-                        _file
-                    )
-                )
+                output = f"=================== Exception for {_file} ===================\n{ex}"
+                print(output)
 
     df = pd.DataFrame(names)
     df.to_csv(output_path, index=False)
@@ -122,11 +115,20 @@ def parse_args():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
+    """
+    Main function to run the script
+    """
     args = parse_args()
     inter_path = os.path.join(args.base_path, "git_log_output_files")
     output_path = os.path.join(inter_path, "students.csv")
     if args.time_allowed:
+        global ALLOWED_TIME_IN_SECONDS
         ALLOWED_TIME_IN_SECONDS = args.time_allowed * 60  # convert minutes to seconds
     run_command(args.base_path, inter_path)
     generate_csv(inter_path, output_path)
+
+
+# run the main function if this script is executed directly
+if __name__ == "__main__":
+    main()
