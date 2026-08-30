@@ -10,9 +10,9 @@ import pandas as pd
 def run_tests(base_path, inter_path):
     """
     Runs the pre-defined tests in each of the students' repository and logs that output to a directory
-    :param base_path: Path where you have cloned repositories of a particular assignment from Github classroom
+    :param base_path: Path where you have cloned students' forks of a particular assignment
     :param inter_path: Path where you will have logs of running the tests from the cloned repositories of all
-    assignments from Github classroom
+    assignments, one sub-directory per student
     :return:
     """
     dirs = sorted(os.listdir(base_path))
@@ -40,7 +40,7 @@ def generate_csv(inter_path, output_path):
     """
     Generates csv with grades for each student from the logs of the tests that were run in run_tests
     :param inter_path: Path where you will have logs of running the tests from the cloned repositories of all
-    assignments from Github classroom
+    assignments, one sub-directory per student
     :param output_path: Path to the output csv file with marks
     :return:
     """
@@ -117,7 +117,7 @@ def parse_args():
         "--base_path",
         type=str,
         required=True,
-        help="Path where you have cloned repositories of a particular assignment from Github classroom",
+        help="Path where you have cloned students' forks of a particular assignment",
     )
     return parser.parse_args()
 

@@ -12,9 +12,9 @@ ALLOWED_TIME_IN_SECONDS = 12600  # 3.5 hours * 3600 seconds / hour
 def run_command(base_path, inter_path):
     """
     Runs the git log command in each of the students' repository and logs that output to a directory
-    :param base_path: Path where you have cloned repositories of a particular assignment from Github classroom
+    :param base_path: Path where you have cloned students' forks of a particular assignment
     :param inter_path: Path where you will have logs of running the tests from the cloned repositories of all
-    assignments from Github classroom
+    assignments, one sub-directory per student
     :return:
     """
     dirs = sorted(os.listdir(base_path))
@@ -41,7 +41,7 @@ def generate_csv(inter_path, output_path):
     """
     Generates csv with names of each student who took more time from the logs of the command that were run in run_command
     :param inter_path: Path where you will have logs of running the tests from the cloned repositories of all
-    assignments from Github classroom
+    assignments, one sub-directory per student
     :param output_path: Path to the output csv file
     :return:
     """
@@ -96,14 +96,14 @@ def parse_args():
     parsed command line arguments
     """
     parser = argparse.ArgumentParser(
-        description="Flags students who took too long between GitHub Classroom assignment repository creation and final code push"
+        description="Flags students who took too long between assignment repository creation and final code push"
     )
     parser.add_argument(
         "-b",
         "--base_path",
         type=str,
         required=True,
-        help="Path where you have cloned repositories of exam from Github Classroom",
+        help="Path where you have cloned students' forks of an exam",
     )
     parser.add_argument(
         "-t",
